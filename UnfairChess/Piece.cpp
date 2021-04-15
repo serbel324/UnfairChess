@@ -2,7 +2,7 @@
 #include "Piece.h"
 
 Piece::Piece(uint16_t type, uint16_t player, Vector2<int> pos, 
-             uint32_t moves, uint64_t cooldown, bool is_capital)
+             bool is_capital, uint32_t moves, uint64_t cooldown)
     : type(type)
     , player(player)
     , pos(pos)

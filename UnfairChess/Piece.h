@@ -6,7 +6,7 @@
 struct Piece
 {
 public:
-    Piece(uint16_t type, uint16_t player, Vector2<int> pos, uint32_t moves=0, uint64_t cooldown=0, bool is_capital=0);
+    Piece(uint16_t type, uint16_t player, Vector2<int> pos, bool is_capital=0, uint32_t moves=0, uint64_t cooldown=0);
     Piece(const Piece& other);
 
     void operator=(const Piece& other);

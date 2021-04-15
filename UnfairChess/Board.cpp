@@ -1,5 +1,11 @@
 #include "Board.h"
 
+Board::Board()
+    : size(0, 0)
+    , empty_square(empty_square)
+{ }
+
+
 Board::Board(size_t x_size, size_t y_size)
     : size(x_size, y_size)
     , board(y_size, std::vector<Piece>(x_size, Piece::empty_square))
@@ -35,6 +41,12 @@ void Board::swap_pieces(Vector2<int> f, Vector2<int> s)
         board[f.y][f.x] = board[s.y][s.x];
         board[s.y][s.x] = b;
     }
+}
+
+void Board::resize(Vector2<size_t> new_size)
+{
+    size = new_size;
+    board.assign(size.y, std::vector<Piece>(size.x, Piece::empty_square));
 }
 
 const Piece& Board::operator[](Vector2<int> pos) const

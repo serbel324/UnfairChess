@@ -11,6 +11,8 @@
 #define PIECE_KING          7
 
 
+#define PLAYER_WHITE 0
+#define PLAYER_BLACK 1
 #define PLAYER_NEUTRAL 2
 
 
