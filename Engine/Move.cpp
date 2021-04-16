@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Move.h"
 
 Move::Move(Vector2<int> start_pos, Vector2<int> end_pos, Piece piece_moved, Piece piece_taken)

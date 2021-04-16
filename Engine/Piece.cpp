@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Config.h"
 #include "Piece.h"
 
@@ -29,7 +30,5 @@ void Piece::operator=(const Piece& other)
     cooldown = other.cooldown;
     is_capital = other.is_capital;
 }
-
-const Piece Piece::empty_square = Piece(PIECE_EMPTY_SQUARE, PLAYER_NEUTRAL, POSITION_NULL);
 
 const Piece Piece::empty_square = Piece(PIECE_EMPTY_SQUARE, PLAYER_NEUTRAL, POSITION_NULL);

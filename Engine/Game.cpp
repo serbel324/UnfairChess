@@ -1,7 +1,17 @@
+#include "pch.h"
 #include "Config.h"
 #include "Game.h"
 
-Game::Game(Assets& assets)
+#include <iostream>
+
+Game::Game()
+    : assets(assets)
+    , clock()
+{
+    standard_setup();
+}
+
+Game::Game(Assets assets)
     : assets(assets)
     , clock()
 {
@@ -45,9 +55,11 @@ void Game::commit_move(Move move)
 {
     moves.push_back(move);
     board.remove_piece(move.start_pos);
+    board.remove_piece(move.piece_taken.pos);
     board.emplace_piece(move.end_pos, move.piece_moved);
 
     board[move.end_pos].moves += 1;
+    board[move.end_pos].pos = move.end_pos;
 
     turn = !turn;
 }
@@ -126,9 +138,16 @@ void Game::standard_setup()
     board.emplace_piece(pos, Piece(PIECE_QUEEN, PLAYER_BLACK, pos));
     pos.set(7, 4);
     board.emplace_piece(pos, Piece(PIECE_KING, PLAYER_BLACK, pos, true));
+
+    turn = PLAYER_WHITE;
 }
 
 Board Game::get_board()
 {
     return board;
+}
+
+void Game::set_board(Board board)
+{
+    board.set(board);
 }

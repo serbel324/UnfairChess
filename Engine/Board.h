@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
 
-#include "Vector2.h"
+#include <SFML/Network/Packet.hpp>
+
 #include "Piece.h"
+#include "Vector2.h"
 
 struct Board
 {
@@ -11,7 +13,7 @@ public:
     Board(size_t x_size, size_t y_size);
     Board(Vector2<size_t> size);
 
-    Vector2<size_t> size;
+    Vector2<size_t> size();
 
     void remove_piece(Vector2<int> pos);
     void emplace_piece(Vector2<int> pos, Piece piece);
@@ -22,7 +24,8 @@ public:
     Piece& operator[](Vector2<int> pos);
 
 private:
-    std::vector<std::vector<Piece>> board;
+    Vector2<size_t> _size;
+    std::vector<std::vector<Piece>> _board;
     Piece empty_square;
 };
 

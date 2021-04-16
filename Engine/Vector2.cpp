@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #ifndef __VECTOR2_CPP__
 #define __VECTOR2_CPP__
 

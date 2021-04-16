@@ -7,7 +7,7 @@
 struct Assets
 {
 public:
-    Assets(std::string textures_path);
+    Assets();
     void load_assets(std::string path);
     std::vector<PieceDescription> piece_descriptions;
 };

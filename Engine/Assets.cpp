@@ -1,9 +1,15 @@
+#include "pch.h"
 #include "Assets.h"
 #include "Config.h"
 
 #include <cstddef>
+#include <vector>
 
-Assets::Assets(std::string textures_path)
+Assets::Assets()
+{
+}
+
+void Assets::load_assets(std::string path)
 {
     std::vector<Direction> empty_moves;
     std::vector<Direction> white_pawn_moves = { Direction::king_U};
@@ -42,6 +48,8 @@ Assets::Assets(std::string textures_path)
         Direction::king_DL, Direction::king_DR,
         Direction::king_UL, Direction::king_UR };
     std::vector<Direction> king_takes = king_moves;
+
+    std::string textures_path = path + "/textures";
 
     PieceDescription empty(PIECE_EMPTY_SQUARE, empty_moves, empty_moves, textures_path + "", "empty");
     PieceDescription white_pawn(PIECE_WHITE_PAWN, white_pawn_moves, white_pawn_takes, textures_path + "white_pawn", "white_pawn");

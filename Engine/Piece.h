@@ -12,7 +12,6 @@ public:
     void operator=(const Piece& other);
 
     static const Piece empty_square;
-    static Piece empty_square_nonconst;
 
     uint16_t type;
     uint16_t player;

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "PieceDescription.h"
 
 PieceDescription::PieceDescription(uint16_t id, 
