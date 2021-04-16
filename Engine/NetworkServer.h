@@ -13,9 +13,9 @@ class NetworkServer
 public:
     NetworkServer();
 
-    void connect(uint16_t port);
+    void connect();
 
-    std::deque<std::string> get_messages();
+    std::deque<sf::Packet> get_packets();
 
     void receive();
     void send(std::string message);
@@ -30,6 +30,6 @@ private:
     uint16_t client_port;
     uint16_t server_port;
 
-    std::deque<std::string> messages_receieved;
+    std::deque<sf::Packet> packets_received;
 };
 

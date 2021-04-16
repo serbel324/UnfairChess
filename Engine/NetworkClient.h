@@ -14,9 +14,10 @@ public:
         uint16_t server_port = NETWORK_SERVER_PORT,
         uint16_t client_port = NETWORK_CLIENT_PORT);
 
+    void connect();
     void connect(sf::IpAddress ip, uint16_t port, uint16_t client_port);
 
-    std::deque<std::string> get_messages();
+    std::deque<sf::Packet> get_packets();
 
     void receive();
     void send(std::string message);
@@ -33,6 +34,6 @@ private:
     uint16_t server_port;
     sf::IpAddress server_ip;
 
-    std::deque<std::string> messages_receieved;
+    std::deque<sf::Packet> packets_received;
 };
 

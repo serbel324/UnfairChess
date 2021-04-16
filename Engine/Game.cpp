@@ -5,40 +5,48 @@
 #include <iostream>
 
 Game::Game()
-    : assets(assets)
+    : assets()
     , clock()
-{
-    standard_setup();
-}
+    , turn(PLAYER_WHITE)
+{}
 
 Game::Game(Assets assets)
     : assets(assets)
     , clock()
-{
-    standard_setup();
-}
+    , turn(PLAYER_WHITE)
+{}
 
-void Game::propose_move(uint16_t player, Vector2<int> start_pos, Vector2<int> end_pos)
+bool Game::try_move(MoveAttempt move)
 {
-    if (player != turn)
+    if (move.player != turn)
     {
-        decline_move();
-        return;
+        return 0;
     }
 
-    if (board[start_pos].player != player)
+    if (board[move.start_pos].player != move.player)
     {
-        decline_move();
+        return 0;
+    }
+
+    return 1;
+}
+
+void Game::propose_move(MoveAttempt move_attempt)
+{
+    if (!try_move(move_attempt))
+    {
         return;
     }
         
-    Move move(start_pos, end_pos, board[start_pos], board[end_pos]);
-    commit_move(move);
-}
+    Move move(move_attempt.player, 
+        move_attempt.start_pos, 
+        move_attempt.end_pos, 
+        board[move_attempt.start_pos], 
+        board[move_attempt.end_pos]
+    );
 
-void Game::decline_move()
-{
-    std::cout << "Tak nelzya" << std::endl;
+    commit_move(move);
+    return;
 }
 
 bool Game::check_for_checks()
@@ -56,10 +64,11 @@ void Game::commit_move(Move move)
     moves.push_back(move);
     board.remove_piece(move.start_pos);
     board.remove_piece(move.piece_taken.pos);
-    board.emplace_piece(move.end_pos, move.piece_moved);
 
-    board[move.end_pos].moves += 1;
-    board[move.end_pos].pos = move.end_pos;
+    board[move.start_pos].moves += 1;
+    board[move.start_pos].pos = move.end_pos;
+
+    board.emplace_piece(move.piece_moved);
 
     turn = !turn;
 }
@@ -87,28 +96,28 @@ void Game::standard_setup()
     for (int i = 0; i < 8; ++i) 
     {
         pos.set(1, i);
-        board.emplace_piece(pos, Piece(PIECE_WHITE_PAWN, PLAYER_WHITE, pos));
+        board.emplace_piece(Piece(PIECE_WHITE_PAWN, PLAYER_WHITE, pos));
     }
 
     pos.set(0, 0);
-    board.emplace_piece(pos, Piece(PIECE_ROOK, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_ROOK, PLAYER_WHITE, pos));
     pos.set(0, 7);
-    board.emplace_piece(pos, Piece(PIECE_ROOK, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_ROOK, PLAYER_WHITE, pos));
 
     pos.set(0, 1);
-    board.emplace_piece(pos, Piece(PIECE_KNIGHT, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_KNIGHT, PLAYER_WHITE, pos));
     pos.set(0, 6);
-    board.emplace_piece(pos, Piece(PIECE_KNIGHT, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_KNIGHT, PLAYER_WHITE, pos));
 
     pos.set(0, 2);
-    board.emplace_piece(pos, Piece(PIECE_BISHOP, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_BISHOP, PLAYER_WHITE, pos));
     pos.set(0, 5);
-    board.emplace_piece(pos, Piece(PIECE_BISHOP, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_BISHOP, PLAYER_WHITE, pos));
 
     pos.set(0, 3);
-    board.emplace_piece(pos, Piece(PIECE_QUEEN, PLAYER_WHITE, pos));
+    board.emplace_piece(Piece(PIECE_QUEEN, PLAYER_WHITE, pos));
     pos.set(0, 4);
-    board.emplace_piece(pos, Piece(PIECE_KING, PLAYER_WHITE, pos, true));
+    board.emplace_piece(Piece(PIECE_KING, PLAYER_WHITE, pos, true));
 
 
     // ------------------------ BLACK PIECES ------------------------ //
@@ -116,28 +125,28 @@ void Game::standard_setup()
     for (int i = 0; i < 8; ++i)
     {
         pos.set(6, i);
-        board.emplace_piece(pos, Piece(PIECE_WHITE_PAWN, PLAYER_BLACK, pos));
+        board.emplace_piece(Piece(PIECE_WHITE_PAWN, PLAYER_BLACK, pos));
     }
 
     pos.set(7, 0);
-    board.emplace_piece(pos, Piece(PIECE_ROOK, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_ROOK, PLAYER_BLACK, pos));
     pos.set(7, 7);
-    board.emplace_piece(pos, Piece(PIECE_ROOK, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_ROOK, PLAYER_BLACK, pos));
 
     pos.set(7, 1);
-    board.emplace_piece(pos, Piece(PIECE_KNIGHT, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_KNIGHT, PLAYER_BLACK, pos));
     pos.set(7, 6);
-    board.emplace_piece(pos, Piece(PIECE_KNIGHT, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_KNIGHT, PLAYER_BLACK, pos));
 
     pos.set(7, 2);
-    board.emplace_piece(pos, Piece(PIECE_BISHOP, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_BISHOP, PLAYER_BLACK, pos));
     pos.set(7, 5);
-    board.emplace_piece(pos, Piece(PIECE_BISHOP, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_BISHOP, PLAYER_BLACK, pos));
 
     pos.set(7, 3);
-    board.emplace_piece(pos, Piece(PIECE_QUEEN, PLAYER_BLACK, pos));
+    board.emplace_piece(Piece(PIECE_QUEEN, PLAYER_BLACK, pos));
     pos.set(7, 4);
-    board.emplace_piece(pos, Piece(PIECE_KING, PLAYER_BLACK, pos, true));
+    board.emplace_piece(Piece(PIECE_KING, PLAYER_BLACK, pos, true));
 
     turn = PLAYER_WHITE;
 }
@@ -149,5 +158,5 @@ Board Game::get_board()
 
 void Game::set_board(Board board)
 {
-    board.set(board);
+    this->board = board;
 }

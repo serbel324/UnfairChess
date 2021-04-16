@@ -1,9 +1,12 @@
 #pragma once
 
 #include <Engine/NetworkClient.h>
+#include <Engine/Move.h>
 #include <Engine/Board.h>
 #include <Engine/Game.h>
 #include <Engine/Graphics.h>
+
+#include <vector>
 
 class Client
 {
@@ -17,9 +20,7 @@ public:
 private:
 	void SFML_init();
 	void config();
-	void init();
 
-	void tick();
 	void render();
 	void events();
 
@@ -31,13 +32,16 @@ private:
 	sf::RenderWindow* window;
 	float tick_time;
 
+	std::string assets_path;
+
 	Assets assets;
 	Game game;
-	Board board;
 
 	Vector2<int> square_size;
 
     NetworkClient network;
     Game current_game;
+
+	std::vector<MoveAttempt> move_attempts;
 };
 

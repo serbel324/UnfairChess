@@ -8,14 +8,13 @@ NetworkClient::NetworkClient(std::string server_ip, uint16_t server_port, uint16
     , server_port(server_port)
     , client_port(client_port)
 {
-    connect(server_ip, server_port, client_port);
     socket_sender.setBlocking(false);
     socket_receiver.setBlocking(false);
 }
 
-void NetworkClient::connect(sf::IpAddress ip, uint16_t port, uint16_t client_port)
+void NetworkClient::connect()
 {
-    socket_sender.connect(ip, port);
+    socket_sender.connect(server_ip, server_port);
 
     listener.listen(client_port);
     listener.accept(socket_receiver);
@@ -23,9 +22,18 @@ void NetworkClient::connect(sf::IpAddress ip, uint16_t port, uint16_t client_por
     std::cout << "Server connected: " << socket_receiver.getRemoteAddress() << std::endl;
 }
 
-std::deque<std::string> NetworkClient::get_messages()
+void NetworkClient::connect(sf::IpAddress ip, uint16_t port, uint16_t client_port)
 {
-    return messages_receieved;
+    listener.listen(client_port);
+    socket_sender.connect(ip, port);
+    listener.accept(socket_receiver);
+
+    std::cout << "Server connected: " << socket_receiver.getRemoteAddress() << std::endl;
+}
+
+std::deque<sf::Packet> NetworkClient::get_packets()
+{
+    return packets_received;
 }
 
 void NetworkClient::receive()
@@ -33,9 +41,7 @@ void NetworkClient::receive()
     sf::Packet packet;
     while (socket_receiver.receive(packet) == sf::Socket::Done)
     {
-        std::string message;
-        packet >> message;
-        messages_receieved.push_back(message);
+        packets_received.push_back(packet);
     }
 }
 

@@ -12,8 +12,10 @@ public:
     Game();
     Game(Assets assets);
 
-    void propose_move(uint16_t player, Vector2<int> start_pos, Vector2<int> end_pos);
-    void decline_move();
+    bool try_move(MoveAttempt move);
+
+    void propose_move(MoveAttempt move);
+
     bool check_for_checks();
     std::vector<Vector2<int>> get_possible_moves(Piece piece);
     void commit_move(Move move);

@@ -20,7 +20,7 @@ Board::Board(Vector2<size_t> size)
     , empty_square(empty_square)
 { }
 
-Vector2<size_t> Board::size()
+Vector2<size_t> Board::size() const
 {
     return _size;
 }
@@ -31,8 +31,9 @@ void Board::remove_piece(Vector2<int> pos)
         _board[pos.y][pos.x] = Piece::empty_square;
 }
 
-void Board::emplace_piece(Vector2<int> pos, Piece piece)
+void Board::emplace_piece(Piece piece)
 {
+    auto pos = piece.pos;
     if (pos.x < 0 || pos.y < 0 || pos.x >= _size.x || pos.y >= _size.y)
         _board[pos.y][pos.x] = piece;
 }

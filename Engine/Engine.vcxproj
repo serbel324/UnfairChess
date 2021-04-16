@@ -184,7 +184,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Config.h" />
-    <ClInclude Include="Engine.h" />
     <ClInclude Include="ExtMath.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
@@ -203,11 +202,9 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ExtMath.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="NetworkServer.cpp" />

@@ -3,23 +3,24 @@
 
 NetworkServer::NetworkServer()
 {
-    connect(client_port);
     socket_sender.setBlocking(false);
     socket_receiver.setBlocking(false);
 }
 
-void NetworkServer::connect(uint16_t port)
+void NetworkServer::connect()
 {
     sf::TcpListener listener;
     listener.listen(NETWORK_SERVER_PORT);
     listener.accept(socket_receiver);
 
     std::cout << "Client connected: " << socket_receiver.getRemoteAddress() << std::endl;
+
+    socket_sender.connect(socket_receiver.getRemoteAddress(), NETWORK_CLIENT_PORT);
 }
 
-std::deque<std::string> NetworkServer::get_messages()
+std::deque<sf::Packet> NetworkServer::get_packets()
 {
-    return messages_receieved;
+    return packets_received;
 }
 
 void NetworkServer::receive()
@@ -27,9 +28,7 @@ void NetworkServer::receive()
     sf::Packet packet;
     while (socket_receiver.receive(packet) == sf::Socket::Done)
     {
-        std::string message;
-        packet >> message;
-        messages_receieved.push_back(message);
+        packets_received.push_back(packet);
     }
 }
 

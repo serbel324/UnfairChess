@@ -16,7 +16,7 @@
 
 #define POSITION_NULL Vector2<int>(-1, -1)
 
-#define NETWORK_SERVER_PORT 1119
+#define NETWORK_SERVER_PORT 1118
 #define NETWORK_CLIENT_PORT 1119
 
 constexpr uint16_t PACKET_BOARD_SIZE =        0;

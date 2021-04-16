@@ -1,18 +1,9 @@
 #include "Client.h"
-
-void Client::main_loop()
-{
-    while (true)
-    {
-        send_data();
-
-        receive_data();
-    }
-}
+#include <Engine/PacketManager.h>
 
 Client::Client()
 	: network()
-	, assets("")
+	, assets()
 {
 	window_size = Vector2<int>(800, 800);
 
@@ -24,27 +15,37 @@ Client::Client()
 	gr.apply_camera(cam);
 	gr.set_active(false);
 
-	init();
+	network.connect();
 
-	sf::Thread render_thread(&Client::render, this);
-	render_thread.launch();
+	main_loop();
+}
 
+void Client::main_loop()
+{
 	while (window->isOpen())
 	{
+		receive_data();
 		events();
+		render();
+		send_data();
 	}
 }
 
-void Client::join_game(Game* game)
+void Client::send_data()
 {
-	//	current_game = game;
-	update_board(current_game->get_board());
+	sf::Packet packet;
 }
 
-void Client::update_board(Board new_board)
+void Client::receive_data()
 {
-	board = new_board;
+	network.receive();
+	auto packets = network.get_packets();
+	if (packets.size() != 0)
+	{
+		game.set_board(PacketManager::board_from_packet(packets.back()));
+	}
 }
+
 
 void Client::SFML_init()
 {
@@ -55,45 +56,22 @@ void Client::SFML_init()
 void Client::config()
 {
 	window_size = Vector2<int>(1600, 900);
-	square_size = Vector2<int>(50, 50);
+	square_size = Vector2<int>(80, 80);
 	tick_time = 10;
+
+	assets_path = "assets/";
 }
 
-
-void Client::init()
-{
-}
-
-void Client::tick()
-{
-}
 
 void Client::render()
 {
 	sf::Clock clock;
 
-	while (window->isOpen())
-	{
-		auto t1 = clock.getElapsedTime().asMilliseconds();
+	gr.set_fill_color(Color(20));
 
-		gr.set_active(true);
-		gr.set_fill_color(Color(20));
-
-		gr.fill();
-		draw_board();
-		gr.present();
-
-		gr.set_active(false);
-
-		auto t2 = clock.getElapsedTime().asMilliseconds();
-
-		float dt = static_cast<float>(t2 - t1);
-
-		if (dt < tick_time)
-		{
-			sf::sleep(sf::milliseconds(tick_time - dt));
-		}
-	}
+	gr.fill();
+	draw_board();
+	gr.present();
 }
 
 
@@ -119,19 +97,20 @@ void Client::events()
 
 void Client::draw_board()
 {
-	for (int y = 0; y < board.size.y; ++y)
+	Board board = game.get_board();
+	Vector2<float> board_size = board.size() * square_size;
+	for (int y = 0; y < board.size().y; ++y)
 	{
-		for (int x = 0; x < board.size.x; ++x)
+		for (int x = 0; x < board.size().x; ++x)
 		{
-			Vector2<float> square_pos(x * board.size.x * square_size.x,
-				y * board.size.y * square_size.y);
+			Vector2<float> square_pos(x * square_size.x, y * square_size.y);
 			if ((x + y) % 2 == 0)
 				gr.set_fill_color(Color(200, 200, 200));
 			else
 				gr.set_fill_color(Color(55, 55, 55));
 
 
-			gr.draw_rect(square_pos, square_size);
+			gr.draw_rect(square_pos - board_size * 0.5, square_size);
 		}
 	}
 }
