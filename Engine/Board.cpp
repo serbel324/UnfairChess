@@ -2,6 +2,8 @@
 #include "Board.h"
 #include "Config.h"
 
+#include <iostream>
+
 Board::Board()
     : _size(0, 0)
     , empty_square(empty_square)
@@ -28,14 +30,18 @@ Vector2<size_t> Board::size() const
 void Board::remove_piece(Vector2<int> pos)
 {
     if (pos.x < 0 || pos.y < 0 || pos.x >= _size.x || pos.y >= _size.y)
-        _board[pos.y][pos.x] = Piece::empty_square;
+        return;
+
+    _board[pos.y][pos.x] = Piece::empty_square;
 }
 
 void Board::emplace_piece(Piece piece)
 {
     auto pos = piece.pos;
     if (pos.x < 0 || pos.y < 0 || pos.x >= _size.x || pos.y >= _size.y)
-        _board[pos.y][pos.x] = piece;
+        return;
+
+    _board[pos.y][pos.x] = piece;
 }
 
 void Board::swap_pieces(Vector2<int> f, Vector2<int> s)

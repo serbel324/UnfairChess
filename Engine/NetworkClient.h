@@ -18,6 +18,7 @@ public:
     void connect(sf::IpAddress ip, uint16_t port, uint16_t client_port);
 
     std::deque<sf::Packet> get_packets();
+    void clear_packets();
 
     void receive();
     void send(std::string message);

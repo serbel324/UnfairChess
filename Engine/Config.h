@@ -30,3 +30,8 @@ constexpr uint16_t PACKET_PIECE_IS_CAPITAL =    7;
 constexpr uint16_t PACKET_PIECE_MOVES =         8;
 constexpr uint16_t PACKET_PIECE_COOLDOWN =      9;
 constexpr uint16_t PACKET_PIECE_END =           10;
+
+constexpr uint16_t PACKET_MOVE_PLAYER = 0;
+constexpr uint16_t PACKET_MOVE_START_POS = 1;
+constexpr uint16_t PACKET_MOVE_END_POS = 2;
+constexpr uint16_t PACKET_MOVE_END = 3;

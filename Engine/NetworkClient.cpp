@@ -36,6 +36,11 @@ std::deque<sf::Packet> NetworkClient::get_packets()
     return packets_received;
 }
 
+void NetworkClient::clear_packets()
+{
+    packets_received.clear();
+}
+
 void NetworkClient::receive()
 {
     sf::Packet packet;

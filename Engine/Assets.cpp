@@ -49,9 +49,9 @@ void Assets::load_assets(std::string path)
         Direction::king_UL, Direction::king_UR };
     std::vector<Direction> king_takes = king_moves;
 
-    std::string textures_path = path + "/textures";
+    std::string textures_path = path + "textures/";
 
-    PieceDescription empty(PIECE_EMPTY_SQUARE, empty_moves, empty_moves, textures_path + "", "empty");
+    PieceDescription empty(PIECE_EMPTY_SQUARE, empty_moves, empty_moves, textures_path + "empty", "empty");
     PieceDescription white_pawn(PIECE_WHITE_PAWN, white_pawn_moves, white_pawn_takes, textures_path + "white_pawn", "white_pawn");
     PieceDescription black_pawn(PIECE_BLACK_PAWN, black_pawn_moves, black_pawn_takes, textures_path + "black_pawn", "black_pawn");
     PieceDescription knight(PIECE_KNIGHT, knight_moves, knight_takes, textures_path + "knight", "knight");

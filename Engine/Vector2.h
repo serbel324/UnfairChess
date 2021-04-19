@@ -15,6 +15,9 @@ struct Vector2
 	void set(T _x, T _y);
 	void set(Vector2 p);
 
+	bool operator==(const Vector2<T> r) const;
+	bool operator!=(const Vector2<T> r) const;
+
 	Vector2 operator*(double r) const;
 	Vector2 operator/(double r) const;
 

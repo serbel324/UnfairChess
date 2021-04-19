@@ -27,6 +27,8 @@ public:
 
     void set_board(Board board);
 
+    Vector2<size_t> get_board_size();
+
 private:
     Assets assets;
 

@@ -16,6 +16,7 @@ public:
     void connect();
 
     std::deque<sf::Packet> get_packets();
+    void clear_packets();
 
     void receive();
     void send(std::string message);

@@ -28,6 +28,17 @@ void Server::send_data()
 
 void Server::receive_data()
 {
+    network.receive();
+    auto packets = network.get_packets();
+    network.clear_packets();
+
+    if (packets.size() != 0)
+    {
+        MoveAttempt move = PacketManager::move_from_packet(packets.back());
+
+        game.propose_move(move);
+        send_data();
+    }
 }
 
 void Server::main_loop()

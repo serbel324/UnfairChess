@@ -34,6 +34,14 @@ void PacketManager::piece_to_packet(sf::Packet& packet, const Piece& piece)
     packet << PACKET_PIECE_END;
 }
 
+void PacketManager::move_to_packet(sf::Packet& packet, const MoveAttempt& move)
+{
+    packet << PACKET_MOVE_PLAYER << move.player;
+    packet << PACKET_MOVE_START_POS << move.start_pos.x << move.start_pos.y;
+    packet << PACKET_MOVE_END_POS << move.end_pos.x << move.end_pos.y;
+    packet << PACKET_MOVE_END;
+}
+
 Board PacketManager::board_from_packet(sf::Packet& packet)
 {
     Board board;
@@ -75,7 +83,6 @@ Piece PacketManager::piece_from_packet(sf::Packet& packet)
 
     bool is_capital = 0;
 
-
     uint16_t param;
 
     bool end_reached = 0;
@@ -108,4 +115,35 @@ Piece PacketManager::piece_from_packet(sf::Packet& packet)
         }
     }
     return Piece(type, player, pos, is_capital, moves, cooldown);
+}
+
+MoveAttempt PacketManager::move_from_packet(sf::Packet& packet)
+{
+    uint16_t player = 0;
+    Vector2<int> start_pos(0, 0);
+    Vector2<int> end_pos(0, 0);
+
+    uint16_t param;
+
+    bool end_reached = 0;
+    while (!end_reached && !packet.endOfPacket())
+    {
+        packet >> param;
+        switch (param)
+        {
+        case PACKET_MOVE_PLAYER:
+            packet >> player;
+            break;
+        case PACKET_MOVE_START_POS:
+            packet >> start_pos.x >> start_pos.y;
+            break;
+        case PACKET_MOVE_END_POS:
+            packet >> end_pos.x >> end_pos.y;
+            break;
+        case PACKET_MOVE_END:
+            end_reached = 1;
+            break;
+        }
+    }
+    return MoveAttempt(player, start_pos, end_pos);
 }

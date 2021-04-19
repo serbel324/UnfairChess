@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "PieceDescription.h"
 
+#include <fstream>
+
 PieceDescription::PieceDescription(uint16_t id, 
     std::vector<Direction> moves,
     std::vector<Direction> takes,
@@ -15,6 +17,16 @@ PieceDescription::PieceDescription(uint16_t id,
 
 void PieceDescription::load_textures(std::string path)
 {
+    std::ifstream fin(path + "/" + "textures");
+    std::string name;
+    fin >> name;
+
+    while (name != "END")
+    {
+        textures.push_back(sf::Texture());
+        textures[textures.size() - 1].loadFromFile(path + "/" + name);
+        fin >> name;
+    }
 }
 
 Direction::Direction(int delta_x, int delta_y, uint32_t range)

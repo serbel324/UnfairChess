@@ -123,6 +123,18 @@ void Vector2<T>::set(Vector2 p)
 	y = p.y;
 }
 
+template<typename T>
+bool Vector2<T>::operator==(const Vector2<T> r) const
+{
+	return x == r.x && y == r.y;
+}
+
+template<typename T>
+bool Vector2<T>::operator!=(const Vector2<T> r) const
+{
+	return x != r.x || y != r.y;
+}
+
 template <typename T>
 double Vector2<T>::abs(Vector2 v)
 {

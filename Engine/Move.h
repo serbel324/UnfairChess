@@ -20,6 +20,7 @@ public:
 struct MoveAttempt
 {
 public:
+    MoveAttempt();
     MoveAttempt(uint16_t player, Vector2<int> start_pos, Vector2<int> end_pos);
 
     uint16_t player;

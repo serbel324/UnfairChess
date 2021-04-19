@@ -24,6 +24,9 @@ private:
 	void render();
 	void events();
 
+	void mouse_click();
+	Vector2<int> get_square(Vector2<float> cursor_pos);
+
 	void draw_board();
 
 	Vector2<int> window_size;
@@ -36,12 +39,18 @@ private:
 
 	Assets assets;
 	Game game;
+	uint16_t player;
 
 	Vector2<int> square_size;
 
     NetworkClient network;
     Game current_game;
 
-	std::vector<MoveAttempt> move_attempts;
+	bool move_done;
+	MoveAttempt move_attempt;
+
+	Vector2<float> cursor_pos;
+	bool is_square_selected;
+	Vector2<int> square_selected;
 };
 
